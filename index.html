@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Random Password Generator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Generate a <span>Password</span></h1>
+      <div class="display">
+        <input type="text" id="password" placeholder="Password" readonly />
+        <button id="copyButton" onclick="copyPassword()">Copy</button>
+      </div>
+      <div>
+        <label class="length">Password Length:</label>
+        <input type="number" id="length" min="8" max="64" value="12" />
+      </div>
+      <button id="generate-password" onclick="createPassword()">
+        Generate Password
+      </button>
+    </div>
+
+    <script>
+      const passwordBox = document.getElementById("password");
+      const copyButton = document.getElementById("copyButton");
+
+      function createPassword() {
+        const length = document.getElementById("length").value;
+        const upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const lowerCase = "abcdefghijklmnopqrstuvwxyz";
+        const numbers = "0123456789";
+        const specialSymbols = '@#$%^&*()_+-={}[]|:;"<>,.?/';
+
+        let allChars = upperCase + lowerCase + numbers + specialSymbols;
+        let password = "";
+
+        for (let i = 0; i < length; i++) {
+          let randomIndex = Math.floor(Math.random() * allChars.length);
+          password += allChars[randomIndex];
+        }
+
+        passwordBox.value = password;
+        copyButton.textContent = "Copy"; // Reset copy button text
+      }
+
+      function copyPassword() {
+        if (passwordBox.value !== "") {
+          // Check if password is generated
+          passwordBox.select();
+          document.execCommand("copy");
+          copyButton.textContent = "Copied!";
+          setTimeout(function () {
+            copyButton.textContent = "Copy";
+          }, 1000); // Reset copy button text after 1 second
+        }
+      }
+    </script>
+  </body>
+</html>
